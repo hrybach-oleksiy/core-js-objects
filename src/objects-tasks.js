@@ -17,8 +17,8 @@
  *    shallowCopy({a: 2, b: { a: [1, 2, 3]}}) => {a: 2, b: { a: [1, 2, 3]}}
  *    shallowCopy({}) => {}
  */
-function shallowCopy(/* obj */) {
-  throw new Error('Not implemented');
+function shallowCopy(obj) {
+  return { ...obj };
 }
 
 /**
@@ -49,8 +49,20 @@ function mergeObjects(/* objects */) {
  *    removeProperties({name: 'John', age: 30, city: 'New York'}, 'age') => {name: 'John', city: 'New York'}
  *
  */
-function removeProperties(/* obj, keys */) {
-  throw new Error('Not implemented');
+function removeProperties(obj, keys) {
+  const newObj = { ...obj };
+  if (Array.isArray(keys)) {
+    keys.forEach((key) => {
+      if (Object.prototype.hasOwnProperty.call(newObj, key)) {
+        delete newObj[key];
+      }
+    });
+  } else if (typeof keys === 'string') {
+    if (Object.prototype.hasOwnProperty.call(newObj, keys)) {
+      delete newObj[keys];
+    }
+  }
+  return newObj;
 }
 
 /**
@@ -65,8 +77,15 @@ function removeProperties(/* obj, keys */) {
  *    compareObjects({a: 1, b: 2}, {a: 1, b: 2}) => true
  *    compareObjects({a: 1, b: 2}, {a: 1, b: 3}) => false
  */
-function compareObjects(/* obj1, obj2 */) {
-  throw new Error('Not implemented');
+function compareObjects(obj1, obj2) {
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  return keys1.every((key) => obj1[key] === obj2[key]);
 }
 
 /**
@@ -80,8 +99,8 @@ function compareObjects(/* obj1, obj2 */) {
  *    isEmptyObject({}) => true
  *    isEmptyObject({a: 1}) => false
  */
-function isEmptyObject(/* obj */) {
-  throw new Error('Not implemented');
+function isEmptyObject(obj) {
+  return Object.keys(obj).length === 0;
 }
 
 /**
@@ -100,8 +119,8 @@ function isEmptyObject(/* obj */) {
  *    immutableObj.newProp = 'new';
  *    console.log(immutableObj) => {a: 1, b: 2}
  */
-function makeImmutable(/* obj */) {
-  throw new Error('Not implemented');
+function makeImmutable(obj) {
+  return Object.freeze(obj);
 }
 
 /**
@@ -132,8 +151,33 @@ function makeWord(/* lettersObject */) {
  *    sellTickets([25, 25, 50]) => true
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
-function sellTickets(/* queue */) {
-  throw new Error('Not implemented');
+function sellTickets(queue) {
+  let change25 = 0;
+  let change50 = 0;
+
+  for (let i = 0; i < queue.length; i += 1) {
+    if (queue[i] === 25) {
+      change25 += 1;
+    } else if (queue[i] === 50) {
+      if (change25 > 0) {
+        change25 -= 1;
+        change50 += 1;
+      } else {
+        return false;
+      }
+    } else if (queue[i] === 100) {
+      if (change50 > 0 && change25 > 0) {
+        change50 -= 1;
+        change25 -= 1;
+      } else if (change25 >= 3) {
+        change25 -= 3;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  return true;
 }
 
 /**
