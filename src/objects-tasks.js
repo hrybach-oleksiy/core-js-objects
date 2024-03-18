@@ -32,8 +32,18 @@ function shallowCopy(obj) {
  *    mergeObjects([{a: 1, b: 2}, {b: 3, c: 5}]) => {a: 1, b: 5, c: 5}
  *    mergeObjects([]) => {}
  */
-function mergeObjects(/* objects */) {
-  throw new Error('Not implemented');
+function mergeObjects(objects) {
+  return objects.reduce((merged, obj) => {
+    return Object.entries(obj).reduce(
+      (result, [key, value]) => {
+        if (Object.prototype.hasOwnProperty.call(merged, key)) {
+          return { ...result, [key]: merged[key] + value };
+        }
+        return { ...result, [key]: value };
+      },
+      { ...merged }
+    );
+  }, {});
 }
 
 /**
@@ -378,102 +388,132 @@ function group(array, keySelector, valueSelector) {
  *  For more examples see unit tests.
  */
 
-class CssSelector {
-  constructor() {
-    this.elements = [];
-    this.elementCount = 0;
-    this.idCount = 0;
-    this.pseudoElementCount = 0;
-  }
+// class CssSelector {
+// constructor() {
+//   this.elements = [];
+//   this.elementCount = 0;
+//   this.idCount = 0;
+//   this.pseudoElementCount = 0;
+// }
 
-  element(value) {
-    this.elements.push(value);
-    this.elementCount += 1;
-    if (this.elementCount > 1) {
-      throw new Error(
-        'Element should not occur more than one time inside the selector'
-      );
-    }
-    return this;
-  }
+// element(value) {
+//   this.elements.push(value);
+//   this.elementCount += 1;
+//   if (this.elementCount > 1) {
+//     throw new Error(
+//       'Element should not occur more than one time inside the selector'
+//     );
+//   }
+//   return this;
+// }
 
-  id(value) {
-    this.elements.push(`#${value}`);
-    this.idCount += 1;
-    if (this.idCount > 1) {
-      throw new Error(
-        'Id should not occur more than one time inside the selector'
-      );
-    }
-    return this;
-  }
+// id(value) {
+//   this.elements.push(`#${value}`);
+//   this.idCount += 1;
+//   if (this.idCount > 1) {
+//     throw new Error(
+//       'Id should not occur more than one time inside the selector'
+//     );
+//   }
+//   return this;
+// }
 
-  class(value) {
-    this.elements.push(`.${value}`);
-    return this;
-  }
+// class(value) {
+//   this.elements.push(`.${value}`);
+//   return this;
+// }
 
-  attr(value) {
-    this.elements.push(`[${value}]`);
-    return this;
-  }
+// attr(value) {
+//   this.elements.push(`[${value}]`);
+//   return this;
+// }
 
-  pseudoClass(value) {
-    this.elements.push(`:${value}`);
-    return this;
-  }
+// pseudoClass(value) {
+//   this.elements.push(`:${value}`);
+//   return this;
+// }
 
-  pseudoElement(value) {
-    this.elements.push(`::${value}`);
-    this.pseudoElementCount += 1;
-    if (this.pseudoElementCount > 1) {
-      throw new Error(
-        'Pseudo-element should not occur more than one time inside the selector'
-      );
-    }
-    return this;
-  }
+// pseudoElement(value) {
+//   this.elements.push(`::${value}`);
+//   this.pseudoElementCount += 1;
+//   if (this.pseudoElementCount > 1) {
+//     throw new Error(
+//       'Pseudo-element should not occur more than one time inside the selector'
+//     );
+//   }
+//   return this;
+// }
 
-  combine(selector1, combinator, selector2) {
-    this.elements.push(
-      `${selector1.stringify()} ${combinator} ${selector2.stringify()}`
-    );
-    return this;
-  }
+// combine(selector1, combinator, selector2) {
+//   this.elements.push(
+//     `${selector1.stringify()} ${combinator} ${selector2.stringify()}`
+//   );
+//   return this;
+// }
 
-  stringify() {
-    // Об'єднати всі елементи масиву в одну строку
-    return this.elements.join('');
-  }
-}
+// stringify() {
+//   // Об'єднати всі елементи масиву в одну строку
+//   return this.elements.join('');
+// }
+// }
+
+// const cssSelectorBuilder = {
+//   element(value) {
+//     return new CssSelector().element(value);
+//   },
+
+//   id(value) {
+//     return new CssSelector().id(value);
+//   },
+
+//   class(value) {
+//     return new CssSelector().class(value);
+//   },
+
+//   attr(value) {
+//     return new CssSelector().attr(value);
+//   },
+
+//   pseudoClass(value) {
+//     return new CssSelector().pseudoClass(value);
+//   },
+
+//   pseudoElement(value) {
+//     return new CssSelector().pseudoElement(value);
+//   },
+
+//   combine(selector1, combinator, selector2) {
+//     return new CssSelector().combine(selector1, combinator, selector2);
+//   },
+// };
 
 const cssSelectorBuilder = {
-  element(value) {
-    return new CssSelector().element(value);
+  element(/* value */) {
+    throw new Error('Not implemented');
   },
 
-  id(value) {
-    return new CssSelector().id(value);
+  id(/* value */) {
+    throw new Error('Not implemented');
   },
 
-  class(value) {
-    return new CssSelector().class(value);
+  class(/* value */) {
+    throw new Error('Not implemented');
   },
 
-  attr(value) {
-    return new CssSelector().attr(value);
+  attr(/* value */) {
+    throw new Error('Not implemented');
   },
 
-  pseudoClass(value) {
-    return new CssSelector().pseudoClass(value);
+  pseudoClass(/* value */) {
+    throw new Error('Not implemented');
   },
 
-  pseudoElement(value) {
-    return new CssSelector().pseudoElement(value);
+  pseudoElement(/* value */) {
+    throw new Error('Not implemented');
   },
 
-  combine(selector1, combinator, selector2) {
-    return new CssSelector().combine(selector1, combinator, selector2);
+  combine(/* selector1, combinator, selector2 */) {
+    throw new Error('Not implemented');
   },
 };
 
